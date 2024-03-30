@@ -129,6 +129,9 @@
   <ItemGroup>
     <ClCompile Include="SaudiDateLibrary.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Date.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
