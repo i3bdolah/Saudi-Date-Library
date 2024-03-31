@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <vector>
 using namespace std;
 
 class Date
@@ -31,6 +32,41 @@ private:
 		date.year = EnterInt("Year: ");
 		return date;
 	}
+
+	static vector <string> splitToVector(string sentence, string seperator) {
+		vector <string> wordsSeperated;
+		int pos = 0;
+		string strTemp;
+
+		while ((pos = sentence.find(seperator)) != string::npos)
+		{
+			strTemp = sentence.substr(0, pos);
+			if (strTemp != seperator)
+			{
+				wordsSeperated.push_back(strTemp.substr(0, (pos)));
+			}
+
+			sentence.erase(0, pos + seperator.length());
+		}
+
+		if (sentence != "" && sentence != seperator)
+		{
+			wordsSeperated.push_back(sentence);
+		}
+
+		return wordsSeperated;
+	}
+
+	static string ReplaceWordInString(string StringToReplace, string RepalceTo, string FullString) {
+		short pos = FullString.find(StringToReplace);
+
+		while (pos != std::string::npos) {
+			FullString = FullString.replace(pos, StringToReplace.length(), RepalceTo);
+			pos = FullString.find(StringToReplace);
+		}
+		return FullString;
+	}
+
 public:
 	Date() {
 
@@ -254,7 +290,7 @@ public:
 		return date;
 	}
 
-	static bool IsDate1LessDate2(Date date1, Date date2) {
+	static bool IsDate1BeforeDate2(Date date1, Date date2) {
 		if (date1.year < date2.year) {
 			return true;
 		}
@@ -307,13 +343,13 @@ public:
 		int diff = 0;
 		int swapFlag = 1;
 
-		if (!IsDate1LessDate2(date1, date2))
+		if (!IsDate1BeforeDate2(date1, date2))
 		{
 			swapFlag = -1;
 			SwapTwoDates(date1, date2);
 		}
 
-		while (IsDate1LessDate2(date1, date2))
+		while (IsDate1BeforeDate2(date1, date2))
 		{
 			date1 = IncreaseDateByOneDay(date1);
 			diff++;
@@ -335,7 +371,7 @@ public:
 		return date;
 	}
 
-	static int CalcAgeInDays(Date dateAge) {
+	static int AgeInDays(Date dateAge) {
 		Date DateCurrent = GetSystemDate();
 		return DateDifference(dateAge, DateCurrent);
 	}
@@ -356,7 +392,7 @@ public:
 		date2.year = DateTemp.year;
 	}
 
-	static void IncreaseDateByXDays(Date& date, int num) {
+	static void IncreaseDateByXDays(Date date, int num) {
 		while (num != 0)
 		{
 			IncreaseDateByOneDay(date);
@@ -368,7 +404,7 @@ public:
 		IncreaseDateByXDays(*this, num);
 	}
 
-	static void IncreaseDateByOneWeek(Date& date) {
+	static void IncreaseDateByOneWeek(Date date) {
 		IncreaseDateByXDays(date, 7);
 	}
 
@@ -376,7 +412,7 @@ public:
 		IncreaseDateByOneWeek(*this);
 	}
 
-	static void IncreaseDateByXWeeks(Date& date, int num) {
+	static void IncreaseDateByXWeeks(Date date, int num) {
 		while (num != 0)
 		{
 			IncreaseDateByOneWeek(date);
@@ -388,7 +424,7 @@ public:
 		IncreaseDateByXWeeks(*this, num);
 	}
 
-	static void IncreaseDateByOneMonth(Date& date) {
+	static void IncreaseDateByOneMonth(Date date) {
 		IncreaseDateByXDays(date, DaysInMonth(date.month, date.year));
 	}
 
@@ -396,7 +432,7 @@ public:
 		IncreaseDateByOneMonth(*this);
 	}
 
-	static void IncreaseDateByXMonths(Date& date, int num) {
+	static void IncreaseDateByXMonths(Date date, int num) {
 		while (num != 0)
 		{
 			IncreaseDateByOneMonth(date);
@@ -408,7 +444,7 @@ public:
 		IncreaseDateByXMonths(*this, num);
 	}
 
-	static void IncreaseDateByOneYear(Date& date) {
+	static void IncreaseDateByOneYear(Date date) {
 		IncreaseDateByXMonths(date, 12);
 	}
 
@@ -416,7 +452,7 @@ public:
 		IncreaseDateByOneYear(*this);
 	}
 
-	static void IncreaseDateByXYears(Date& date, int num) {
+	static void IncreaseDateByXYears(Date date, int num) {
 		while (num != 0)
 		{
 			IncreaseDateByOneYear(date);
@@ -428,7 +464,7 @@ public:
 		IncreaseDateByXYears(*this, num);
 	}
 
-	static void IncreaseDateByXYearsFaster(Date& date, int num) {
+	static void IncreaseDateByXYearsFaster(Date date, int num) {
 		date.year += num;
 	}
 
@@ -436,7 +472,7 @@ public:
 		IncreaseDateByXYearsFaster(*this, num);
 	}
 
-	static void IncreaseDateByOneDecade(Date& date) {
+	static void IncreaseDateByOneDecade(Date date) {
 		IncreaseDateByXYears(date, 10);
 	}
 
@@ -444,7 +480,7 @@ public:
 		IncreaseDateByOneDecade(*this);
 	}
 
-	static void IncreaseDateByXDecades(Date& date, int num) {
+	static void IncreaseDateByXDecades(Date date, int num) {
 		while (num != 0)
 		{
 			IncreaseDateByOneDecade(date);
@@ -456,7 +492,7 @@ public:
 		IncreaseDateByXDecades(*this, num);
 	}
 
-	static void IncreaseDateByXDecadesFaster(Date& date, int num) {
+	static void IncreaseDateByXDecadesFaster(Date date, int num) {
 		date.year += (num * 10);
 	}
 
@@ -464,7 +500,7 @@ public:
 		IncreaseDateByXDecadesFaster(*this, num);
 	}
 
-	static void IncreaseDateByOneCentury(Date& date) {
+	static void IncreaseDateByOneCentury(Date date) {
 		IncreaseDateByXDecades(date, 10);
 	}
 
@@ -472,7 +508,7 @@ public:
 		IncreaseDateByOneCentury(*this);
 	}
 
-	static void IncreaseDateByOneMillennium(Date& date) {
+	static void IncreaseDateByOneMillennium(Date date) {
 		date.year += 1000;
 	}
 
@@ -484,9 +520,275 @@ public:
 		cout << date.day << "/" << date.month << "/" << date.year << endl;
 	}
 
-	void PrintDate(Date date) {
+	void PrintDate() {
 		PrintDate(*this);
 	}
 
-};
+	static Date DecreaseDateByOneDay(Date date) {
+		if (date.day == 1) {
+			date.day = DaysInMonth(date.month, date.year);
 
+			if (date.month == 1) {
+				date.month = 12;
+				date.year--;
+			}
+			else {
+				date.month--;
+			}
+		}
+		else
+		{
+			date.day--;
+		}
+	}
+
+	Date DecreaseDateByOneDay() {
+		return DecreaseDateByOneDay(*this);
+	}
+
+	static void DecreaseDateByXDays(Date date, int num) {
+		while (num != 0)
+		{
+			DecreaseDateByOneDay(date);
+			num--;
+		}
+	}
+
+	void DecreaseDateByXDays(int num) {
+		return DecreaseDateByXDays(*this, num);
+	}
+
+	static void DecreaseDateByOneWeek(Date date) {
+		DecreaseDateByXDays(date, 7);
+	}
+
+	void DecreaseDateByOneWeek() {
+		return DecreaseDateByOneWeek(*this);
+	}
+
+	static void DecreaseDateByXWeeks(Date date, int num) {
+		while (num != 0)
+		{
+			DecreaseDateByOneWeek(date);
+			num--;
+		}
+	}
+
+	void DecreaseDateByXWeeks(int num) {
+		return DecreaseDateByXWeeks(*this, num);
+	}
+
+	static void DecreaseDateByOneMonth(Date date) {
+		DecreaseDateByXDays(date, DaysInMonth(date.month, date.year));
+	}
+
+	void DecreaseDateByOneMonth() {
+		return DecreaseDateByOneMonth(*this);
+	}
+
+	static void DecreaseDateByXMonths(Date date, int num) {
+		while (num != 0)
+		{
+			DecreaseDateByOneMonth(date);
+			num--;
+		}
+	}
+
+	void DecreaseDateByXMonths(int num) {
+		return DecreaseDateByXMonths(*this, num);
+	}
+
+	static void DecreaseDateByOneYear(Date date) {
+		DecreaseDateByXMonths(date, 12);
+	}
+
+	void DecreaseDateByOneYear() {
+		return DecreaseDateByOneYear(*this);
+	}
+
+	static void DecreaseDateByXYears(Date date, int num) {
+		while (num != 0)
+		{
+			DecreaseDateByOneYear(date);
+			num--;
+		}
+	}
+
+	void DecreaseDateByXYears(int num) {
+		return DecreaseDateByXYears(*this, num);
+	}
+
+	static void DecreaseDateByXYearsFaster(Date date, int num) {
+		date.year -= num;
+	}
+
+	void DecreaseDateByXYearsFaster(int num) {
+		return DecreaseDateByXYearsFaster(*this, num);
+	}
+
+	static void DecreaseDateByOneDecade(Date date) {
+		DecreaseDateByXYears(date, 10);
+	}
+
+	void DecreaseDateByOneDecade() {
+		return DecreaseDateByOneDecade(*this);
+	}
+
+	static void DecreaseDateByXDecades(Date date, int num) {
+		while (num != 0)
+		{
+			DecreaseDateByOneDecade(date);
+			num--;
+		}
+	}
+
+	void DecreaseDateByXDecades(int num) {
+		return DecreaseDateByXDecades(*this, num);
+	}
+
+	static void DecreaseDateByXDecadesFaster(Date date, int num) {
+		date.year -= (num * 10);
+	}
+
+	void DecreaseDateByXDecadesFaster(int num) {
+		return DecreaseDateByXDecadesFaster(*this, num);
+	}
+
+	static void DecreaseDateByOneCentury(Date date) {
+		DecreaseDateByXDecades(date, 10);
+	}
+
+	void DecreaseDateByOneCentury() {
+		return DecreaseDateByOneCentury(*this);
+	}
+
+	static void DecreaseDateByOneMillennium(Date date) {
+		date.year -= 1000;
+	}
+
+	void DecreaseDateByOneMillennium() {
+		return DecreaseDateByOneMillennium(*this);
+	}
+
+	static int GetDayOrder(Date date) {
+		int a = (14 - date.month) / 12;
+		int y = date.year - a;
+		int m = date.month + (12 * a) - 2;
+
+		int d = (date.day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+
+		return d;
+	}
+
+	int GetDayOrder() {
+		return GetDayOrder(*this);
+	}
+
+	static bool isEndOfWeek(int dayOrder) {
+		return (dayOrder == 6);
+	}
+
+	static bool IsWeekend(int dayOrder) {
+		return (dayOrder == 5 || dayOrder == 6);
+	}
+
+	static bool IsBusinessDay(int dayOrder) {
+		return !IsWeekend(dayOrder);
+	}
+
+	static int DaysUntilEndOfWeek(int dayOrder) {
+		return (7 - (dayOrder + 1));
+	}
+
+	static int DaysUntilEndOfMonth(Date date) {
+		return DaysInMonth(date.month, date.year) - date.day;
+	}
+
+	int DaysUntilEndOfMonth() {
+		return DaysUntilEndOfMonth(*this);
+	}
+
+	static int DaysUntilEndOfYear(Date date) {
+		int sum = DaysUntilEndOfMonth(date);
+		date.month++;
+
+		while (date.month <= 12)
+		{
+			sum += DaysInMonth(date.month, date.year);
+			date.month++;
+		}
+		return sum;
+	}
+
+	int DaysUntilEndOfYear() {
+		return DaysUntilEndOfYear(*this);
+	}
+
+	static int ActualVacationDays(Date start, Date end) {
+		int BusinessDaysSum = 0;
+		while (!IsDatesEquals(start, end))
+		{
+			if (IsBusinessDay(GetDayOrder(start)))	BusinessDaysSum++;
+			start = IncreaseDateByOneDay(start);
+		}
+		return BusinessDaysSum;
+	}
+
+	static Date ReturnDate(Date start, short vacationDays) {
+		short WeekendCounter = 0;
+
+		for (short i = 1; i <= vacationDays + WeekendCounter; i++)
+		{
+			if (IsWeekend(GetDayOrder(start))) WeekendCounter++;
+			start = IncreaseDateByOneDay(start);
+		}
+
+		while (IsWeekend(GetDayOrder(start))) start = IncreaseDateByOneDay(start);
+
+		return start;
+	}
+
+	Date ReturnDate(short vacationDays) {
+		return ReturnDate(*this, vacationDays);
+	}
+
+	static bool IsDate1AfterDate2(Date date1, Date date2) {
+		return !IsDate1BeforeDate2(date1, date2) && !IsDatesEquals(date1, date2);
+	}
+
+	static short CompareDates(Date date1, Date date2) {
+		if (IsDate1BeforeDate2(date1, date2)) return -1;
+		if (IsDatesEquals(date1, date2)) return 0;
+		return 1;
+	}
+
+	static bool IsDateValid(Date date) {
+		return !((date.day < 1 || date.day > DaysInMonth(date.year, date.month)) || (date.month < 1 || date.month > 12) || (date.year < 1));
+	}
+
+	bool IsDateValid() {
+		return IsDateValid(*this);
+	}
+
+	static Date StringToDate(string date_str) {
+		Date date;
+		vector <string> dateSeperated = splitToVector(date_str, "/");
+
+		date.day = stoi(dateSeperated.at(0));
+		date.month = stoi(dateSeperated.at(1));
+		date.year = stoi(dateSeperated.at(2));
+
+		return date;
+	}
+
+	static string FormatDate(Date date, string format = "dd/mm/yyyy") {
+		string temp;
+
+		temp = ReplaceWordInString("dd", to_string(date.day), format);
+		temp = ReplaceWordInString("mm", to_string(date.month), temp);
+		temp = ReplaceWordInString("yyyy", to_string(date.year), temp);
+
+		return temp;
+	}
+
+};
