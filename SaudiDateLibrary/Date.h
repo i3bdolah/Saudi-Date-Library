@@ -4,14 +4,15 @@
 #include <string>
 #include <iomanip>
 #include <vector>
+#include <ctime>
 using namespace std;
 
 class Date
 {
 private:
-	int _year;
-	int _month;
-	int _day;
+	int _year = 1;
+	int _month = 1;
+	int _day = 1;
 
 	int EnterString(string msg) {
 		int temp;
@@ -33,23 +34,23 @@ private:
 		return date;
 	}
 
-	static vector <string> splitToVector(string sentence, string seperator) {
+	static vector <string> splitToVector(string sentence, string separator) {
 		vector <string> wordsSeperated;
 		int pos = 0;
 		string strTemp;
 
-		while ((pos = sentence.find(seperator)) != string::npos)
+		while ((pos = sentence.find(separator)) != string::npos)
 		{
 			strTemp = sentence.substr(0, pos);
-			if (strTemp != seperator)
+			if (strTemp != separator)
 			{
 				wordsSeperated.push_back(strTemp.substr(0, (pos)));
 			}
 
-			sentence.erase(0, pos + seperator.length());
+			sentence.erase(0, pos + separator.length());
 		}
 
-		if (sentence != "" && sentence != seperator)
+		if (sentence != "" && sentence != separator)
 		{
 			wordsSeperated.push_back(sentence);
 		}
@@ -57,30 +58,34 @@ private:
 		return wordsSeperated;
 	}
 
-	static string ReplaceWordInString(string StringToReplace, string RepalceTo, string FullString) {
+	static string ReplaceWordInString(string StringToReplace, string ReplaceTo, string FullString) {
 		short pos = FullString.find(StringToReplace);
 
 		while (pos != std::string::npos) {
-			FullString = FullString.replace(pos, StringToReplace.length(), RepalceTo);
+			FullString = FullString.replace(pos, StringToReplace.length(), ReplaceTo);
 			pos = FullString.find(StringToReplace);
 		}
 		return FullString;
 	}
 
 public:
+
 	Date() {
-
+		GetSystemDate();
 	}
-	Date(string stringDate) {
 
-	}
 	Date(int day, int month, int year) {
 		_day = day;
 		_month = month;
 		_year = year;
 	}
-	Date(int dayOrderInYear, int year) {
 
+	Date(int dayOrderInYear, int year) {
+		Date date = DateFromDayOrder(dayOrderInYear, year);
+
+		_day = date.day;
+		_month = date.month;
+		_year = date.year;
 	}
 
 	void Year(int num) {
@@ -115,55 +120,85 @@ public:
 	// ______________________________
 
 
-	static bool IsLeapYear(int num) {
-		return ((num % 400) == 0) || ((num % 4) == 0 && (num % 100) != 0);
+	static bool IsLeapYear(int year) {
+		return ((year % 400) == 0) || ((year % 4) == 0 && (year % 100) != 0);
+	}
+
+	bool IsLeapYear() {
+		return IsLeapYear(this->year);
 	}
 
 	static int DaysInYear(int year) {
 		return IsLeapYear(year) ? 366 : 365;
 	}
 
+	int DaysInYear() {
+		DaysInYear(this->year);
+	}
+
 	static int HoursInYear(int year) {
 		return DaysInYear(year) * 24;
+	}
+
+	int HoursInYear() {
+		HoursInYear(this->year);
 	}
 
 	static int MinsInYear(int year) {
 		return HoursInYear(year) * 60;
 	}
 
+	int MinsInYear() {
+		MinsInYear(this->year);
+	}
+
 	static int SecsInYear(int year) {
 		return MinsInYear(year) * 60;
 	}
 
-	static int DaysInMonth(int enteredMonth, int enteredYear) {
-		int NumberOfDaysInAllMonths[12] = { 31, (IsLeapYear(enteredYear) ? 29 : 28), 31, 30, 31, 30, 31 ,31, 30, 31, 30, 31 };
-		return NumberOfDaysInAllMonths[enteredMonth - 1];
+	int SecsInYear() {
+		SecsInYear(this->year);
 	}
 
-	static int HoursInMonth(int enteredMonth, int enteredYear) {
-		return DaysInMonth(enteredMonth, enteredYear) * 24;
+	static int DaysInMonth(int month, int year) {
+		int NumberOfDaysInAllMonths[12] = { 31, (IsLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31 ,31, 30, 31, 30, 31 };
+		return NumberOfDaysInAllMonths[month - 1];
 	}
 
-	static int MinsInMonth(int enteredMonth, int enteredYear) {
-		return HoursInMonth(enteredMonth, enteredYear) * 60;
+	int DaysInMonth() {
+		DaysInMonth(this->month, this->year);
 	}
 
-	static int SecsInMonth(int enteredMonth, int enteredYear) {
-		return MinsInMonth(enteredMonth, enteredYear) * 60;
+	static int HoursInMonth(int month, int year) {
+		return DaysInMonth(month, year) * 24;
+	}
+
+	int HoursInMonth() {
+		HoursInMonth(this->month, this->year);
+	}
+
+	static int MinsInMonth(int month, int year) {
+		return HoursInMonth(month, year) * 60;
+	}
+
+	int MinsInMonth() {
+		MinsInMonth(this->month, this->year);
+	}
+
+	static int SecsInMonth(int month, int year) {
+		return MinsInMonth(month, year) * 60;
+	}
+
+	int SecsInMonth() {
+		SecsInMonth(this->month, this->year);
 	}
 
 	static string GetDateInString(int day, int month, int year) {
 		return to_string(day) + "/" + to_string(month) + "/" + to_string(year);
 	}
 
-	static int GetDayOrder(int day, int month, int year) {
-		int a = (14 - month) / 12;
-		int y = year - a;
-		int m = month + (12 * a) - 2;
-
-		int d = (day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
-
-		return d;
+	string GetDateInString() {
+		return GetDateInString(this->day, this->month, this->year);
 	}
 
 	static string GetDayNameByOrder(int dayOrder) {
@@ -179,6 +214,10 @@ public:
 		return DaysByIndex[dayOrder];
 	}
 
+	string GetDayNameByOrder() {
+		return GetDayNameByOrder(GetDayOrder(*this));
+	}
+
 	static void PrintDateDetails(int day, int month, int year) {
 		cout << setw(15) << right << "Date : ";
 		cout << GetDateInString(day, month, year) << endl;
@@ -190,11 +229,19 @@ public:
 		cout << GetDayNameByOrder(GetDayOrder(day, month, year)) << endl;
 	}
 
-	static string GetMonthNameByOrder(int monthOrder) {
+	void PrintDateDetails() {
+		return PrintDateDetails(this->day, this->month, this->year);
+	}
+
+	static string GetMonthNameByOrder(int month) {
 		string MonthsByIndex[12] = {
 			"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 			"Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-		return MonthsByIndex[monthOrder - 1];
+		return MonthsByIndex[month - 1];
+	}
+
+	string GetMonthNameByOrder() {
+		return GetMonthNameByOrder(this->month);
 	}
 
 	static void PrintMonthCalendar(int month, int year) {
@@ -223,6 +270,10 @@ public:
 		printf("\n  _________________________________\n");
 	}
 
+	void PrintMonthCalendar() {
+		return PrintMonthCalendar(this->month, this->year);
+	}
+
 	static void PrintFullYearCalendar(int year) {
 		printf("\n  ________________________________\n\n");
 		printf("\n	_________Calendar Year__________\n\n");
@@ -234,7 +285,11 @@ public:
 		}
 	}
 
-	static int DaysFromBeginningOfYear(int day, int month, int year) {
+	void PrintFullYearCalendar() {
+		return PrintFullYearCalendar(this->year);
+	}
+
+	static int DayOrderFromDate(int day, int month, int year) {
 		int TotalNumberOfDays = 0;
 		for (int currMonth = 1; currMonth < month; currMonth++)
 		{
@@ -245,7 +300,11 @@ public:
 		return TotalNumberOfDays;
 	}
 
-	static Date DateFromTotalOfBeginning(int TotalNumberOfDays, int year) {
+	int DayOrderFromDate() {
+		return DayOrderFromDate(this->day, this->month, this->year);
+	}
+
+	static Date DateFromDayOrder(int TotalNumberOfDays, int year) {
 		Date date;
 		int remainingDays = TotalNumberOfDays;
 		date.year = year;
@@ -265,6 +324,10 @@ public:
 		}
 
 		return date;
+	}
+
+	Date DateFromDayOrder(int TotalNumberOfDays) {
+		return DateFromDayOrder(TotalNumberOfDays, this->year);
 	}
 
 	static Date DateAfterDaysAdded(Date date, int daysAdded) {
@@ -290,6 +353,10 @@ public:
 		return date;
 	}
 
+	Date DateAfterDaysAdded(int daysAdded) {
+		return DateAfterDaysAdded(*this, daysAdded);
+	}
+
 	static bool IsDate1BeforeDate2(Date date1, Date date2) {
 		if (date1.year < date2.year) {
 			return true;
@@ -311,11 +378,19 @@ public:
 		return (date.day == DaysInMonth(date.month, date.year));
 	}
 
+	bool IsLastDay() {
+		return IsLastDay(*this);
+	}
+
 	static bool IsLastMonth(int month) {
 		return (month == 12);
 	}
 
-	static Date IncreaseDateByOneDay(Date date) {
+	bool IsLastMonth() {
+		return IsLastMonth(this->month);
+	}
+
+	static Date IncreaseDateByOneDay(Date& date) {
 		if (IsLastDay(date)) {
 			date.day = 1;
 
@@ -359,14 +434,14 @@ public:
 	}
 
 	static Date GetSystemDate() {
-		Date date;
-
 		time_t t = time(0);
 		tm* now = localtime(&t);
 
-		date.year = now->tm_year + 1900;
-		date.month = now->tm_mon + 1;
-		date.day = now->tm_mday;
+		int year = now->tm_year + 1900;
+		int month = now->tm_mon + 1;
+		int day = now->tm_mday;
+
+		Date date(day, month, year);
 
 		return date;
 	}
@@ -374,6 +449,10 @@ public:
 	static int AgeInDays(Date dateAge) {
 		Date DateCurrent = GetSystemDate();
 		return DateDifference(dateAge, DateCurrent);
+	}
+
+	int AgeInDays() {
+		return AgeInDays(*this);
 	}
 
 	static void SwapTwoDates(Date& date1, Date& date2) {
@@ -524,7 +603,7 @@ public:
 		PrintDate(*this);
 	}
 
-	static Date DecreaseDateByOneDay(Date date) {
+	static Date DecreaseDateByOneDay(Date& date) {
 		if (date.day == 1) {
 			date.day = DaysInMonth(date.month, date.year);
 
@@ -540,13 +619,14 @@ public:
 		{
 			date.day--;
 		}
+		return date;
 	}
 
 	Date DecreaseDateByOneDay() {
 		return DecreaseDateByOneDay(*this);
 	}
 
-	static void DecreaseDateByXDays(Date date, int num) {
+	static void DecreaseDateByXDays(Date& date, int num) {
 		while (num != 0)
 		{
 			DecreaseDateByOneDay(date);
@@ -670,6 +750,16 @@ public:
 		return DecreaseDateByOneMillennium(*this);
 	}
 
+	static int GetDayOrder(int day, int month, int year) {
+		int a = (14 - month) / 12;
+		int y = year - a;
+		int m = month + (12 * a) - 2;
+
+		int d = (day + y + (y / 4) - (y / 100) + (y / 400) + ((31 * m) / 12)) % 7;
+
+		return d;
+	}
+
 	static int GetDayOrder(Date date) {
 		int a = (14 - date.month) / 12;
 		int y = date.year - a;
@@ -688,16 +778,32 @@ public:
 		return (dayOrder == 6);
 	}
 
+	bool isEndOfWeek() {
+		return isEndOfWeek(GetDayOrder());
+	}
+
 	static bool IsWeekend(int dayOrder) {
 		return (dayOrder == 5 || dayOrder == 6);
+	}
+
+	bool IsWeekend() {
+		return IsWeekend(GetDayOrder());
 	}
 
 	static bool IsBusinessDay(int dayOrder) {
 		return !IsWeekend(dayOrder);
 	}
 
+	bool IsBusinessDay() {
+		return IsBusinessDay(GetDayOrder());
+	}
+
 	static int DaysUntilEndOfWeek(int dayOrder) {
 		return (7 - (dayOrder + 1));
+	}
+
+	int DaysUntilEndOfWeek() {
+		return DaysUntilEndOfWeek(GetDayOrder());
 	}
 
 	static int DaysUntilEndOfMonth(Date date) {
@@ -772,11 +878,11 @@ public:
 
 	static Date StringToDate(string date_str) {
 		Date date;
-		vector <string> dateSeperated = splitToVector(date_str, "/");
+		vector <string> dateSeparated = splitToVector(date_str, "/");
 
-		date.day = stoi(dateSeperated.at(0));
-		date.month = stoi(dateSeperated.at(1));
-		date.year = stoi(dateSeperated.at(2));
+		date.day = stoi(dateSeparated.at(0));
+		date.month = stoi(dateSeparated.at(1));
+		date.year = stoi(dateSeparated.at(2));
 
 		return date;
 	}
