@@ -133,7 +133,7 @@ public:
 	}
 
 	int DaysInYear() {
-		DaysInYear(this->year);
+		return DaysInYear(this->year);
 	}
 
 	static int HoursInYear(int year) {
@@ -141,7 +141,7 @@ public:
 	}
 
 	int HoursInYear() {
-		HoursInYear(this->year);
+		return HoursInYear(this->year);
 	}
 
 	static int MinsInYear(int year) {
@@ -149,7 +149,7 @@ public:
 	}
 
 	int MinsInYear() {
-		MinsInYear(this->year);
+		return MinsInYear(this->year);
 	}
 
 	static int SecsInYear(int year) {
@@ -157,7 +157,7 @@ public:
 	}
 
 	int SecsInYear() {
-		SecsInYear(this->year);
+		return SecsInYear(this->year);
 	}
 
 	static int DaysInMonth(int month, int year) {
@@ -166,7 +166,7 @@ public:
 	}
 
 	int DaysInMonth() {
-		DaysInMonth(this->month, this->year);
+		return DaysInMonth(this->month, this->year);
 	}
 
 	static int HoursInMonth(int month, int year) {
@@ -174,7 +174,7 @@ public:
 	}
 
 	int HoursInMonth() {
-		HoursInMonth(this->month, this->year);
+		return HoursInMonth(this->month, this->year);
 	}
 
 	static int MinsInMonth(int month, int year) {
@@ -182,7 +182,7 @@ public:
 	}
 
 	int MinsInMonth() {
-		MinsInMonth(this->month, this->year);
+		return MinsInMonth(this->month, this->year);
 	}
 
 	static int SecsInMonth(int month, int year) {
@@ -190,7 +190,7 @@ public:
 	}
 
 	int SecsInMonth() {
-		SecsInMonth(this->month, this->year);
+		return SecsInMonth(this->month, this->year);
 	}
 
 	static string GetDateInString(int day, int month, int year) {
@@ -215,22 +215,7 @@ public:
 	}
 
 	string GetDayNameByOrder() {
-		return GetDayNameByOrder(GetDayOrder(*this));
-	}
-
-	static void PrintDateDetails(int day, int month, int year) {
-		cout << setw(15) << right << "Date : ";
-		cout << GetDateInString(day, month, year) << endl;
-
-		cout << setw(15) << right << "Day Order : ";
-		cout << GetDayOrder(day, month, year) << endl;
-
-		cout << setw(15) << right << "Day Name : ";
-		cout << GetDayNameByOrder(GetDayOrder(day, month, year)) << endl;
-	}
-
-	void PrintDateDetails() {
-		return PrintDateDetails(this->day, this->month, this->year);
+		return GetDayNameByOrder(DayOrderInWeek(*this));
 	}
 
 	static string GetMonthNameByOrder(int month) {
@@ -246,7 +231,7 @@ public:
 
 	static void PrintMonthCalendar(int month, int year) {
 		int NumberOfDaysInMonth = DaysInMonth(month, year);
-		int DayOrder = GetDayOrder(1, month, year);
+		int DayOrder = DayOrderInWeek(1, month, year);
 
 		printf("\n  _______________%s_______________\n\n", GetMonthNameByOrder(month).c_str());
 
@@ -326,10 +311,6 @@ public:
 		return date;
 	}
 
-	Date DateFromDayOrder(int TotalNumberOfDays) {
-		return DateFromDayOrder(TotalNumberOfDays, this->year);
-	}
-
 	static Date DateAfterDaysAdded(Date date, int daysAdded) {
 		while (true)
 		{
@@ -390,30 +371,6 @@ public:
 		return IsLastMonth(this->month);
 	}
 
-	static Date IncreaseDateByOneDay(Date& date) {
-		if (IsLastDay(date)) {
-			date.day = 1;
-
-			if (IsLastMonth(date.month)) {
-				date.month = 1;
-				date.year++;
-			}
-			else {
-				date.month++;
-			}
-		}
-		else
-		{
-			date.day++;
-		}
-
-		return date;
-	}
-
-	Date IncreaseDateByOneDay() {
-		return IncreaseDateByOneDay(*this);
-	}
-
 	static int DateDifference(Date date1, Date date2, bool IncludeEndDay = false) {
 		int diff = 0;
 		int swapFlag = 1;
@@ -446,13 +403,37 @@ public:
 		return date;
 	}
 
-	static int AgeInDays(Date dateAge) {
+	static int CountAllDays(Date dateAge) {
 		Date DateCurrent = GetSystemDate();
 		return DateDifference(dateAge, DateCurrent);
 	}
 
-	int AgeInDays() {
-		return AgeInDays(*this);
+	int CountAllDays() {
+		return CountAllDays(*this);
+	}
+
+	static int CountAllHours(Date date) {
+		return CountAllDays(date) * 24;
+	}
+
+	int CountAllHours() {
+		return CountAllHours(*this);
+	}
+
+	static int CountAllMins(Date date) {
+		return CountAllHours(date) * 60;
+	}
+
+	int CountAllMins() {
+		return CountAllMins(*this);
+	}
+
+	static int CountAllSecs(Date date) {
+		return CountAllMins(date) * 60;
+	}
+
+	int CountAllSecs() {
+		return CountAllSecs(*this);
 	}
 
 	static void SwapTwoDates(Date& date1, Date& date2) {
@@ -471,128 +452,160 @@ public:
 		date2.year = DateTemp.year;
 	}
 
-	static void IncreaseDateByXDays(Date date, int num) {
+	static Date IncreaseDateByOneDay(Date date) {
+		if (IsLastDay(date)) {
+			date.day = 1;
+
+			if (IsLastMonth(date.month)) {
+				date.month = 1;
+				date.year++;
+			}
+			else {
+				date.month++;
+			}
+		}
+		else
+		{
+			date.day++;
+		}
+
+		return date;
+	}
+
+	Date IncreaseDateByOneDay() {
+		return IncreaseDateByOneDay(*this);
+	}
+
+	static Date IncreaseDateByXDays(Date date, int num) {
 		while (num != 0)
 		{
-			IncreaseDateByOneDay(date);
+			date = IncreaseDateByOneDay(date);
 			num--;
 		}
+		return date;
 	}
 
-	void IncreaseDateByXDays(int num) {
-		IncreaseDateByXDays(*this, num);
+	Date IncreaseDateByXDays(int num) {
+		return IncreaseDateByXDays(*this, num);
 	}
 
-	static void IncreaseDateByOneWeek(Date date) {
-		IncreaseDateByXDays(date, 7);
+	static Date IncreaseDateByOneWeek(Date date) {
+		return IncreaseDateByXDays(date, 7);
 	}
 
-	void IncreaseDateByOneWeek() {
-		IncreaseDateByOneWeek(*this);
+	Date IncreaseDateByOneWeek() {
+		return IncreaseDateByOneWeek(*this);
 	}
 
-	static void IncreaseDateByXWeeks(Date date, int num) {
+	static Date IncreaseDateByXWeeks(Date date, int num) {
 		while (num != 0)
 		{
-			IncreaseDateByOneWeek(date);
+			date = IncreaseDateByOneWeek(date);
 			num--;
 		}
+		return date;
 	}
 
-	void IncreaseDateByXWeeks(int num) {
-		IncreaseDateByXWeeks(*this, num);
+	Date IncreaseDateByXWeeks(int num) {
+		return IncreaseDateByXWeeks(*this, num);
 	}
 
-	static void IncreaseDateByOneMonth(Date date) {
-		IncreaseDateByXDays(date, DaysInMonth(date.month, date.year));
+	static Date IncreaseDateByOneMonth(Date date) {
+		return IncreaseDateByXDays(date, DaysInMonth(date.month, date.year));
 	}
 
-	void IncreaseDateByOneMonth() {
-		IncreaseDateByOneMonth(*this);
+	Date IncreaseDateByOneMonth() {
+		return IncreaseDateByOneMonth(*this);
 	}
 
-	static void IncreaseDateByXMonths(Date date, int num) {
+	static Date IncreaseDateByXMonths(Date date, int num) {
 		while (num != 0)
 		{
-			IncreaseDateByOneMonth(date);
+			date = IncreaseDateByOneMonth(date);
 			num--;
 		}
+		return date;
 	}
 
-	void IncreaseDateByXMonths(int num) {
-		IncreaseDateByXMonths(*this, num);
+	Date IncreaseDateByXMonths(int num) {
+		return IncreaseDateByXMonths(*this, num);
 	}
 
-	static void IncreaseDateByOneYear(Date date) {
-		IncreaseDateByXMonths(date, 12);
+	static Date IncreaseDateByOneYear(Date date) {
+		return IncreaseDateByXMonths(date, 12);
 	}
 
-	void IncreaseDateByOneYear() {
-		IncreaseDateByOneYear(*this);
+	Date IncreaseDateByOneYear() {
+		return IncreaseDateByOneYear(*this);
 	}
 
-	static void IncreaseDateByXYears(Date date, int num) {
+	static Date IncreaseDateByXYears(Date date, int num) {
 		while (num != 0)
 		{
-			IncreaseDateByOneYear(date);
+			date = IncreaseDateByOneYear(date);
 			num--;
 		}
+		return date;
 	}
 
-	void IncreaseDateByXYears(int num) {
-		IncreaseDateByXYears(*this, num);
+	Date IncreaseDateByXYears(int num) {
+		return IncreaseDateByXYears(*this, num);
 	}
 
-	static void IncreaseDateByXYearsFaster(Date date, int num) {
+	static Date IncreaseDateByXYearsFaster(Date date, int num) {
 		date.year += num;
+		return date;
 	}
 
-	void IncreaseDateByXYearsFaster(int num) {
-		IncreaseDateByXYearsFaster(*this, num);
+	Date IncreaseDateByXYearsFaster(int num) {
+		return IncreaseDateByXYearsFaster(*this, num);
 	}
 
-	static void IncreaseDateByOneDecade(Date date) {
-		IncreaseDateByXYears(date, 10);
+	static Date IncreaseDateByOneDecade(Date date) {
+		return IncreaseDateByXYears(date, 10);
 	}
 
-	void IncreaseDateByOneDecade() {
-		IncreaseDateByOneDecade(*this);
+	Date IncreaseDateByOneDecade() {
+		return IncreaseDateByOneDecade(*this);
 	}
 
-	static void IncreaseDateByXDecades(Date date, int num) {
+	static Date IncreaseDateByXDecades(Date date, int num) {
 		while (num != 0)
 		{
-			IncreaseDateByOneDecade(date);
+			date = IncreaseDateByOneDecade(date);
 			num--;
 		}
+		return date;
 	}
 
-	void IncreaseDateByXDecades(int num) {
-		IncreaseDateByXDecades(*this, num);
+	Date IncreaseDateByXDecades(int num) {
+		return IncreaseDateByXDecades(*this, num);
 	}
 
-	static void IncreaseDateByXDecadesFaster(Date date, int num) {
+	static Date IncreaseDateByXDecadesFaster(Date date, int num) {
 		date.year += (num * 10);
+		return date;
 	}
 
-	void IncreaseDateByXDecadesFaster(int num) {
-		IncreaseDateByXDecadesFaster(*this, num);
+	Date IncreaseDateByXDecadesFaster(int num) {
+		return IncreaseDateByXDecadesFaster(*this, num);
 	}
 
-	static void IncreaseDateByOneCentury(Date date) {
-		IncreaseDateByXDecades(date, 10);
+	static Date IncreaseDateByOneCentury(Date date) {
+		return IncreaseDateByXDecades(date, 10);
 	}
 
-	void IncreaseDateByOneCentury() {
-		IncreaseDateByOneCentury(*this);
+	Date IncreaseDateByOneCentury() {
+		return IncreaseDateByOneCentury(*this);
 	}
 
-	static void IncreaseDateByOneMillennium(Date date) {
+	static Date IncreaseDateByOneMillennium(Date date) {
 		date.year += 1000;
+		return date;
 	}
 
-	void IncreaseDateByOneMillennium() {
-		IncreaseDateByOneMillennium(*this);
+	Date IncreaseDateByOneMillennium() {
+		return IncreaseDateByOneMillennium(*this);
 	}
 
 	static void PrintDate(Date date) {
@@ -603,7 +616,7 @@ public:
 		PrintDate(*this);
 	}
 
-	static Date DecreaseDateByOneDay(Date& date) {
+	static Date DecreaseDateByOneDay(Date date) {
 		if (date.day == 1) {
 			date.day = DaysInMonth(date.month, date.year);
 
@@ -626,131 +639,139 @@ public:
 		return DecreaseDateByOneDay(*this);
 	}
 
-	static void DecreaseDateByXDays(Date& date, int num) {
+	static Date DecreaseDateByXDays(Date date, int num) {
 		while (num != 0)
 		{
-			DecreaseDateByOneDay(date);
+			date = DecreaseDateByOneDay(date);
 			num--;
 		}
+		return date;
 	}
 
-	void DecreaseDateByXDays(int num) {
+	Date DecreaseDateByXDays(int num) {
 		return DecreaseDateByXDays(*this, num);
 	}
 
-	static void DecreaseDateByOneWeek(Date date) {
-		DecreaseDateByXDays(date, 7);
+	static Date DecreaseDateByOneWeek(Date date) {
+		return DecreaseDateByXDays(date, 7);
 	}
 
-	void DecreaseDateByOneWeek() {
+	Date DecreaseDateByOneWeek() {
 		return DecreaseDateByOneWeek(*this);
 	}
 
-	static void DecreaseDateByXWeeks(Date date, int num) {
+	static Date DecreaseDateByXWeeks(Date date, int num) {
 		while (num != 0)
 		{
-			DecreaseDateByOneWeek(date);
+			date = DecreaseDateByOneWeek(date);
 			num--;
 		}
+		return date;
 	}
 
-	void DecreaseDateByXWeeks(int num) {
+	Date DecreaseDateByXWeeks(int num) {
 		return DecreaseDateByXWeeks(*this, num);
 	}
 
-	static void DecreaseDateByOneMonth(Date date) {
-		DecreaseDateByXDays(date, DaysInMonth(date.month, date.year));
+	static Date DecreaseDateByOneMonth(Date date) {
+		return DecreaseDateByXDays(date, DaysInMonth(date.month, date.year));
 	}
 
-	void DecreaseDateByOneMonth() {
+	Date DecreaseDateByOneMonth() {
 		return DecreaseDateByOneMonth(*this);
 	}
 
-	static void DecreaseDateByXMonths(Date date, int num) {
+	static Date DecreaseDateByXMonths(Date date, int num) {
 		while (num != 0)
 		{
-			DecreaseDateByOneMonth(date);
+			date = DecreaseDateByOneMonth(date);
 			num--;
 		}
+		return date;
 	}
 
-	void DecreaseDateByXMonths(int num) {
+	Date DecreaseDateByXMonths(int num) {
 		return DecreaseDateByXMonths(*this, num);
 	}
 
-	static void DecreaseDateByOneYear(Date date) {
-		DecreaseDateByXMonths(date, 12);
+	static Date DecreaseDateByOneYear(Date date) {
+		return DecreaseDateByXMonths(date, 12);
 	}
 
-	void DecreaseDateByOneYear() {
+	Date DecreaseDateByOneYear() {
 		return DecreaseDateByOneYear(*this);
 	}
 
-	static void DecreaseDateByXYears(Date date, int num) {
+	static Date DecreaseDateByXYears(Date date, int num) {
 		while (num != 0)
 		{
-			DecreaseDateByOneYear(date);
+			date = DecreaseDateByOneYear(date);
 			num--;
 		}
+		return date;
 	}
 
-	void DecreaseDateByXYears(int num) {
+	Date DecreaseDateByXYears(int num) {
 		return DecreaseDateByXYears(*this, num);
 	}
 
-	static void DecreaseDateByXYearsFaster(Date date, int num) {
+	static Date DecreaseDateByXYearsFaster(Date date, int num) {
 		date.year -= num;
+		return date;
 	}
 
-	void DecreaseDateByXYearsFaster(int num) {
+	Date DecreaseDateByXYearsFaster(int num) {
 		return DecreaseDateByXYearsFaster(*this, num);
 	}
 
-	static void DecreaseDateByOneDecade(Date date) {
-		DecreaseDateByXYears(date, 10);
+	static Date DecreaseDateByOneDecade(Date date) {
+		return DecreaseDateByXYears(date, 10);
 	}
 
-	void DecreaseDateByOneDecade() {
+	Date DecreaseDateByOneDecade() {
 		return DecreaseDateByOneDecade(*this);
 	}
 
-	static void DecreaseDateByXDecades(Date date, int num) {
+	static Date DecreaseDateByXDecades(Date date, int num) {
 		while (num != 0)
 		{
-			DecreaseDateByOneDecade(date);
+			date = DecreaseDateByOneDecade(date);
 			num--;
 		}
+		return date;
 	}
 
-	void DecreaseDateByXDecades(int num) {
+	Date DecreaseDateByXDecades(int num) {
 		return DecreaseDateByXDecades(*this, num);
 	}
 
-	static void DecreaseDateByXDecadesFaster(Date date, int num) {
+	static Date DecreaseDateByXDecadesFaster(Date date, int num) {
 		date.year -= (num * 10);
+		return date;
 	}
 
-	void DecreaseDateByXDecadesFaster(int num) {
+	Date DecreaseDateByXDecadesFaster(int num) {
 		return DecreaseDateByXDecadesFaster(*this, num);
 	}
 
-	static void DecreaseDateByOneCentury(Date date) {
-		DecreaseDateByXDecades(date, 10);
+	static Date DecreaseDateByOneCentury(Date date) {
+		return DecreaseDateByXDecades(date, 10);
 	}
 
-	void DecreaseDateByOneCentury() {
+	Date DecreaseDateByOneCentury() {
 		return DecreaseDateByOneCentury(*this);
 	}
 
-	static void DecreaseDateByOneMillennium(Date date) {
+	static Date DecreaseDateByOneMillennium(Date date) {
 		date.year -= 1000;
+		return date;
 	}
 
-	void DecreaseDateByOneMillennium() {
+	Date DecreaseDateByOneMillennium() {
 		return DecreaseDateByOneMillennium(*this);
 	}
 
-	static int GetDayOrder(int day, int month, int year) {
+	static int DayOrderInWeek(int day, int month, int year) {
 		int a = (14 - month) / 12;
 		int y = year - a;
 		int m = month + (12 * a) - 2;
@@ -760,7 +781,7 @@ public:
 		return d;
 	}
 
-	static int GetDayOrder(Date date) {
+	static int DayOrderInWeek(Date date) {
 		int a = (14 - date.month) / 12;
 		int y = date.year - a;
 		int m = date.month + (12 * a) - 2;
@@ -770,16 +791,16 @@ public:
 		return d;
 	}
 
-	int GetDayOrder() {
-		return GetDayOrder(*this);
+	int DayOrderInWeek() {
+		return DayOrderInWeek(*this);
 	}
 
-	static bool isEndOfWeek(int dayOrder) {
+	static bool IsEndOfWeek(int dayOrder) {
 		return (dayOrder == 6);
 	}
 
-	bool isEndOfWeek() {
-		return isEndOfWeek(GetDayOrder());
+	bool IsEndOfWeek() {
+		return IsEndOfWeek(DayOrderInWeek());
 	}
 
 	static bool IsWeekend(int dayOrder) {
@@ -787,7 +808,7 @@ public:
 	}
 
 	bool IsWeekend() {
-		return IsWeekend(GetDayOrder());
+		return IsWeekend(DayOrderInWeek());
 	}
 
 	static bool IsBusinessDay(int dayOrder) {
@@ -795,7 +816,7 @@ public:
 	}
 
 	bool IsBusinessDay() {
-		return IsBusinessDay(GetDayOrder());
+		return IsBusinessDay(DayOrderInWeek());
 	}
 
 	static int DaysUntilEndOfWeek(int dayOrder) {
@@ -803,7 +824,7 @@ public:
 	}
 
 	int DaysUntilEndOfWeek() {
-		return DaysUntilEndOfWeek(GetDayOrder());
+		return DaysUntilEndOfWeek(DayOrderInWeek());
 	}
 
 	static int DaysUntilEndOfMonth(Date date) {
@@ -834,7 +855,7 @@ public:
 		int BusinessDaysSum = 0;
 		while (!IsDatesEquals(start, end))
 		{
-			if (IsBusinessDay(GetDayOrder(start)))	BusinessDaysSum++;
+			if (IsBusinessDay(DayOrderInWeek(start)))	BusinessDaysSum++;
 			start = IncreaseDateByOneDay(start);
 		}
 		return BusinessDaysSum;
@@ -845,11 +866,11 @@ public:
 
 		for (short i = 1; i <= vacationDays + WeekendCounter; i++)
 		{
-			if (IsWeekend(GetDayOrder(start))) WeekendCounter++;
+			if (IsWeekend(DayOrderInWeek(start))) WeekendCounter++;
 			start = IncreaseDateByOneDay(start);
 		}
 
-		while (IsWeekend(GetDayOrder(start))) start = IncreaseDateByOneDay(start);
+		while (IsWeekend(DayOrderInWeek(start))) start = IncreaseDateByOneDay(start);
 
 		return start;
 	}

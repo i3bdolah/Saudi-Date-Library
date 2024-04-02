@@ -9,7 +9,7 @@ struct stPeriod
 	Date end;
 };
 
-class Period : public Date
+class Period : protected Date
 {
 private:
 	stPeriod _Per1;
@@ -36,6 +36,13 @@ public:
 		_Per2.end = date;
 	}
 
+	stPeriod GetPer1() {
+		return _Per1;
+	}
+	stPeriod GetPer2() {
+		return _Per2;
+	}
+
 	Date GetPer1_start() {
 		return _Per1.start;
 	}
@@ -51,19 +58,23 @@ public:
 
 
 
-	bool IsPeriodsOverlapped(stPeriod per1, stPeriod per2) {
+	static bool IsPeriodsOverlapped(stPeriod per1, stPeriod per2) {
 		return !(IsDate1AfterDate2(per2.start, per1.end) || IsDate1BeforeDate2(per2.end, per1.start));
 	}
 
-	int PeriodLengthInDays(stPeriod per, bool IncludeEndDay = false) {
+	bool IsPeriodsOverlapped() {
+		return IsPeriodsOverlapped(this->_Per1, this->_Per2);
+	}
+
+	static int PeriodLengthInDays(stPeriod per, bool IncludeEndDay = false) {
 		return DateDifference(per.start, per.end, IncludeEndDay);
 	}
 
-	bool IsDateWithinPeriod(Date date, stPeriod per) {
+	static bool IsDateWithinPeriod(Date date, stPeriod per) {
 		return !(IsDate1BeforeDate2(date, per.start) || IsDate1AfterDate2(date, per.end));
 	}
 
-	int CountOverlapPeriods(stPeriod per1, stPeriod per2) {
+	static int CountOverlap(stPeriod per1, stPeriod per2) {
 		int OverlappedDays = 0;
 		int per1Length = PeriodLengthInDays(per1);
 		int per2Length = PeriodLengthInDays(per2);
@@ -91,6 +102,10 @@ public:
 			}
 		}
 		return OverlappedDays;
+	}
+
+	int CountOverlap() {
+		return CountOverlap(this->_Per1, this->_Per2);
 	}
 };
 
