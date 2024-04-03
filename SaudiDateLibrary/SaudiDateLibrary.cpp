@@ -5,97 +5,127 @@ using namespace std;
 
 int main()
 {
-	Date MyBirthdate(362, 2000);
-	//cout << "IsLeapYear : " << MyBirthdate.IsLeapYear() << endl;
-	//cout << "DaysInYear : " << MyBirthdate.DaysInYear() << endl;
-	//cout << "HoursInYear : " << MyBirthdate.HoursInYear() << endl;
-	//cout << "MinsInYear : " << MyBirthdate.MinsInYear() << endl;
-	//cout << "SecsInYear : " << MyBirthdate.SecsInYear() << endl;
-	//cout << "DaysInMonth : " << MyBirthdate.DaysInMonth() << endl;
-	//cout << "HoursInMonth : " << MyBirthdate.HoursInMonth() << endl;
-	//cout << "MinsInMonth : " << MyBirthdate.MinsInMonth() << endl;
-	//cout << "SecsInMonth : " << MyBirthdate.SecsInMonth() << endl;
+	Date date(212, 2001);
+	cout << "IsLeapYear : " << date.IsLeapYear() << endl;
+	cout << "DaysInYear : " << date.DaysInYear() << endl;
+	cout << "HoursInYear : " << date.HoursInYear() << endl;
+	cout << "MinsInYear : " << date.MinsInYear() << endl;
+	cout << "SecsInYear : " << date.SecsInYear() << endl;
+	cout << "DaysInMonth : " << date.DaysInMonth() << endl;
+	cout << "HoursInMonth : " << date.HoursInMonth() << endl;
+	cout << "MinsInMonth : " << date.MinsInMonth() << endl;
+	cout << "SecsInMonth : " << date.SecsInMonth() << endl;
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "GetDateInString : " << MyBirthdate.GetDateInString() << endl;
-	//cout << "GetDayNameByOrder : " << MyBirthdate.GetDayNameByOrder() << endl;
-	//cout << "GetMonthNameByOrder : " << MyBirthdate.GetMonthNameByOrder() << endl;
+	cout << "GetDateInString : " << date.GetDateInString() << endl;
+	cout << "GetDayNameByOrder : " << date.GetDayNameByOrder() << endl;
+	cout << "GetMonthNameByOrder : " << date.GetMonthNameByOrder() << endl;
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "PrintMonthCalendar : "; MyBirthdate.PrintMonthCalendar();
-	//cout << "PrintFullYearCalendar : "; MyBirthdate.PrintFullYearCalendar();
+	cout << "PrintMonthCalendar : "; date.PrintMonthCalendar();
+	cout << "PrintFullYearCalendar : "; date.PrintFullYearCalendar();
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "DayOrderFromDate : " << MyBirthdate.DayOrderFromDate() << endl;
-	//cout << "DateAfterDaysAdded : ";  MyBirthdate.PrintDate(MyBirthdate.DateAfterDaysAdded(100));
-	//cout << "IsLastDay : " << MyBirthdate.IsLastDay() << endl;
-	//cout << "IsLastMonth : " << MyBirthdate.IsLastMonth() << endl;
-	//cout << "GetSystemDate : ";  MyBirthdate.PrintDate(MyBirthdate.GetSystemDate());
+	cout << "DayOrderFromDate : " << date.DayOrderFromDate() << endl;
+	cout << "DateAfterDaysAdded : ";  date.PrintDate(date.DateAfterDaysAdded(100));
+	cout << "IsLastDay : " << date.IsLastDay() << endl;
+	cout << "IsLastMonth : " << date.IsLastMonth() << endl;
+	cout << "GetSystemDate : ";  date.PrintDate(date.GetSystemDate());
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "CountAllDays : " << MyBirthdate.CountAllDays() << endl;
-	//cout << "CountAllHours : " << MyBirthdate.CountAllHours() << endl;
-	//cout << "CountAllMins : " << MyBirthdate.CountAllMins() << endl;
-	//cout << "CountAllSecs : " << MyBirthdate.CountAllSecs() << endl;
+	cout << "CountAllDays : " << date.CountAllDays() << endl;
+	cout << "CountAllHours : " << date.CountAllHours() << endl;
+	cout << "CountAllMins : " << date.CountAllMins() << endl;
+	cout << "CountAllSecs : " << date.CountAllSecs() << endl;
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "IncreaseDateByOneDay : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneDay());
-	//cout << "IncreaseDateByOneWeek : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneWeek());
-	//cout << "IncreaseDateByOneMonth : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneMonth());
-	//cout << "IncreaseDateByOneYear : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneYear());
-	//cout << "IncreaseDateByOneDecade : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneDecade());
-	//cout << "IncreaseDateByOneCentury : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneCentury());
-	//cout << "IncreaseDateByOneMillennium : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByOneMillennium());
+	cout << "IncreaseDateByOneDay : ";  date.PrintDate(date.IncreaseDateByOneDay());
+	cout << "IncreaseDateByOneWeek : ";  date.PrintDate(date.IncreaseDateByOneWeek());
+	cout << "IncreaseDateByOneMonth : ";  date.PrintDate(date.IncreaseDateByOneMonth());
+	cout << "IncreaseDateByOneYear : ";  date.PrintDate(date.IncreaseDateByOneYear());
+	cout << "IncreaseDateByOneDecade : ";  date.PrintDate(date.IncreaseDateByOneDecade());
+	cout << "IncreaseDateByOneCentury : ";  date.PrintDate(date.IncreaseDateByOneCentury());
+	cout << "IncreaseDateByOneMillennium : ";  date.PrintDate(date.IncreaseDateByOneMillennium());
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "IncreaseDateByXDays(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXDays(10));
-	//cout << "IncreaseDateByXWeeks(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXWeeks(10));
-	//cout << "IncreaseDateByXMonths(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXMonths(10));
-	//cout << "IncreaseDateByXYears(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXYears(10));
-	//cout << "IncreaseDateByXYearsFaster(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXYearsFaster(10));
-	//cout << "IncreaseDateByXDecades(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXDecades(10));
-	//cout << "IncreaseDateByXDecadesFaster(10) : ";  MyBirthdate.PrintDate(MyBirthdate.IncreaseDateByXDecadesFaster(10));
+	cout << "IncreaseDateByXDays(10) : ";  date.PrintDate(date.IncreaseDateByXDays(10));
+	cout << "IncreaseDateByXWeeks(10) : ";  date.PrintDate(date.IncreaseDateByXWeeks(10));
+	cout << "IncreaseDateByXMonths(10) : ";  date.PrintDate(date.IncreaseDateByXMonths(10));
+	cout << "IncreaseDateByXYears(10) : ";  date.PrintDate(date.IncreaseDateByXYears(10));
+	cout << "IncreaseDateByXYearsFaster(10) : ";  date.PrintDate(date.IncreaseDateByXYearsFaster(10));
+	cout << "IncreaseDateByXDecades(10) : ";  date.PrintDate(date.IncreaseDateByXDecades(10));
+	cout << "IncreaseDateByXDecadesFaster(10) : ";  date.PrintDate(date.IncreaseDateByXDecadesFaster(10));
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "DecreaseDateByOneDay : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneDay());
-	//cout << "DecreaseDateByOneWeek : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneWeek());
-	//cout << "DecreaseDateByOneMonth : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneMonth());
-	//cout << "DecreaseDateByOneYear : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneYear());
-	//cout << "DecreaseDateByOneDecade : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneDecade());
-	//cout << "DecreaseDateByOneCentury : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneCentury());
-	//cout << "DecreaseDateByOneMillennium : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByOneMillennium());
+	cout << "DecreaseDateByOneDay : ";  date.PrintDate(date.DecreaseDateByOneDay());
+	cout << "DecreaseDateByOneWeek : ";  date.PrintDate(date.DecreaseDateByOneWeek());
+	cout << "DecreaseDateByOneMonth : ";  date.PrintDate(date.DecreaseDateByOneMonth());
+	cout << "DecreaseDateByOneYear : ";  date.PrintDate(date.DecreaseDateByOneYear());
+	cout << "DecreaseDateByOneDecade : ";  date.PrintDate(date.DecreaseDateByOneDecade());
+	cout << "DecreaseDateByOneCentury : ";  date.PrintDate(date.DecreaseDateByOneCentury());
+	cout << "DecreaseDateByOneMillennium : ";  date.PrintDate(date.DecreaseDateByOneMillennium());
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "DecreaseDateByXDays(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXDays(10));
-	//cout << "DecreaseDateByXWeeks(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXWeeks(10));
-	//cout << "DecreaseDateByXMonths(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXMonths(10));
-	//cout << "DecreaseDateByXYears(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXYears(10));
-	//cout << "DecreaseDateByXYearsFaster(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXYearsFaster(10));
-	//cout << "DecreaseDateByXDecades(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXDecades(10));
-	//cout << "DecreaseDateByXDecadesFaster(10) : ";  MyBirthdate.PrintDate(MyBirthdate.DecreaseDateByXDecadesFaster(10));
+	cout << "DecreaseDateByXDays(10) : ";  date.PrintDate(date.DecreaseDateByXDays(10));
+	cout << "DecreaseDateByXWeeks(10) : ";  date.PrintDate(date.DecreaseDateByXWeeks(10));
+	cout << "DecreaseDateByXMonths(10) : ";  date.PrintDate(date.DecreaseDateByXMonths(10));
+	cout << "DecreaseDateByXYears(10) : ";  date.PrintDate(date.DecreaseDateByXYears(10));
+	cout << "DecreaseDateByXYearsFaster(10) : ";  date.PrintDate(date.DecreaseDateByXYearsFaster(10));
+	cout << "DecreaseDateByXDecades(10) : ";  date.PrintDate(date.DecreaseDateByXDecades(10));
+	cout << "DecreaseDateByXDecadesFaster(10) : ";  date.PrintDate(date.DecreaseDateByXDecadesFaster(10));
 
-	//cout << "\n";
+	cout << "\n";
 
-	//cout << "DayOrderInWeek : " << MyBirthdate.DayOrderInWeek() << endl;
-	//cout << "IsEndOfWeek : " << MyBirthdate.IsEndOfWeek() << endl;
-	//cout << "IsWeekend : " << MyBirthdate.IsWeekend() << endl;
-	//cout << "IsBusinessDay : " << MyBirthdate.IsBusinessDay() << endl;
-	//cout << "DaysUntilEndOfWeek : " << MyBirthdate.DaysUntilEndOfWeek() << endl;
-	//cout << "DaysUntilEndOfMonth : " << MyBirthdate.DaysUntilEndOfMonth() << endl;
-	//cout << "DaysUntilEndOfYear : " << MyBirthdate.DaysUntilEndOfYear() << endl;
-	//cout << "IsDateValid : " << MyBirthdate.IsDateValid() << endl;
+	cout << "DayOrderInWeek : " << date.DayOrderInWeek() << endl;
+	cout << "IsEndOfWeek : " << date.IsEndOfWeek() << endl;
+	cout << "IsWeekend : " << date.IsWeekend() << endl;
+	cout << "IsBusinessDay : " << date.IsBusinessDay() << endl;
+	cout << "DaysUntilEndOfWeek : " << date.DaysUntilEndOfWeek() << endl;
+	cout << "DaysUntilEndOfMonth : " << date.DaysUntilEndOfMonth() << endl;
+	cout << "DaysUntilEndOfYear : " << date.DaysUntilEndOfYear() << endl;
+	cout << "IsDateValid : " << date.IsDateValid() << endl;
+	cout << "FormatDate('mm | dd | yyyy') : " << date.FormatDate("mm | dd | yyyy") << endl;
+
+	cout << "\n";
+
+	cout << "ActualVacationDays(Date(7,4,2024), Date(22, 4, 2024)) : " << Date::ActualVacationDays(Date(7, 4, 2024), Date(22, 4, 2024)) << endl;
+	cout << "IsDate1AfterDate2(Date(7,4,2024), Date(22, 4, 2024)) : " << Date::IsDate1AfterDate2(Date(7, 4, 2024), Date(22, 4, 2024)) << endl;
+	cout << "IsDate1BeforeDate2(Date(7,4,2024), Date(22, 4, 2024)) : " << Date::IsDate1BeforeDate2(Date(7, 4, 2024), Date(22, 4, 2024)) << endl;
+	cout << "IsDatesEquals(Date(7,4,2024), Date(22, 4, 2024)) : " << Date::IsDatesEquals(Date(7, 4, 2024), Date(22, 4, 2024)) << endl;
+	cout << "DateFromDayOrder(300,2000) : ";
+	Date::PrintDate(Date::DateFromDayOrder(300, 2000));
+
+	cout << "\n";
+
+	Date date1(1, 4, 2024), date2(7, 4, 2024);
+
+	cout << "SwapTwoDates(date1, date2) : " << endl;
+	cout << "\tBefore : Date 1 = ";
+	date1.PrintDate();
+	cout << "\tBefore : Date 2 = ";
+	date2.PrintDate();
+	Date::SwapTwoDates(date1, date2);
+	cout << "\tAfter : Date 1 = ";
+	date1.PrintDate();
+	cout << "\tAfter : Date 2 = ";
+	date2.PrintDate();
+
+	cout << "\n";
+
+
+	cout << "DateDifference(Date(7,4,2024), Date(22, 4, 2024)) : " << Date::DateDifference(Date(7, 4, 2024), Date(22, 4, 2024)) << endl;
 
 	cout << "\n\nPeriods : \n\n";
 
-	Period MeAndFather(MyBirthdate, MyBirthdate.IncreaseDateByXYears(50), Date(1, 2, 1970), Date::GetSystemDate());
+	Period MeAndFather(date, date.IncreaseDateByXYears(50), Date(1, 2, 1970), Date::GetSystemDate());
 
 	cout << "Period 1 start : "; Date::PrintDate(MeAndFather.GetPer1_start());
 	cout << "Period 1 end : "; Date::PrintDate(MeAndFather.GetPer1_end());
@@ -108,6 +138,10 @@ int main()
 	cout << "PeriodLengthInDays (Period 2) : " << MeAndFather.PeriodLengthInDays(MeAndFather.GetPer2()) << endl;
 	cout << "IsPeriodsOverlapped : " << MeAndFather.IsPeriodsOverlapped() << endl;
 	cout << "CountOverlap : " << MeAndFather.CountOverlap() << endl;
+	cout << "IsDateWithinPeriod(MyBirthdate, MyFatherPeriod) : " << MeAndFather.IsDateWithinPeriod(date, MeAndFather.GetPer2()) << endl;
+
+	cout << '\n';
+
 
 
 }

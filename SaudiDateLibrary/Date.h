@@ -80,6 +80,14 @@ public:
 		_year = year;
 	}
 
+	Date(string date) {
+		vector <string> vDate = splitToVector(date, "/");
+
+		_day = stoi(vDate.at(0));
+		_month = stoi(vDate.at(1));
+		_year = stoi(vDate.at(2));
+	}
+
 	Date(int dayOrderInYear, int year) {
 		Date date = DateFromDayOrder(dayOrderInYear, year);
 
@@ -890,7 +898,7 @@ public:
 	}
 
 	static bool IsDateValid(Date date) {
-		return !((date.day < 1 || date.day > DaysInMonth(date.year, date.month)) || (date.month < 1 || date.month > 12) || (date.year < 1));
+		return !((date.day < 1 || date.day > DaysInMonth(date.month, date.year)) || (date.month < 1 || date.month > 12) || (date.year < 1));
 	}
 
 	bool IsDateValid() {
@@ -916,6 +924,10 @@ public:
 		temp = ReplaceWordInString("yyyy", to_string(date.year), temp);
 
 		return temp;
+	}
+
+	string FormatDate(string format = "dd/mm/yyyy") {
+		return FormatDate(*this, format);
 	}
 
 };
