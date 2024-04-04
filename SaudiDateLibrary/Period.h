@@ -3,109 +3,81 @@
 #include "Date.h"
 using namespace std;
 
-struct stPeriod
-{
-	Date start;
-	Date end;
-};
-
-class Period : protected Date
+class Period 
 {
 private:
-	stPeriod _Per1;
-	stPeriod _Per2;
 
 public:
-	Period(Date _Period1Start, Date _Period1End, Date _Period2Start, Date _Period2End) {
-		_Per1.start = _Period1Start;
-		_Per1.end = _Period1End;
-		_Per2.start = _Period2Start;
-		_Per2.end = _Period2End;
-	}
+	Date startDate;
+	Date endDate;
 
-	void SetPer1_start(Date date) {
-		_Per1.start = date;
-	}
-	void SetPer1_end(Date date) {
-		_Per1.end = date;
-	}
-	void SetPer2_start(Date date) {
-		_Per2.start = date;
-	}
-	void SetPer2_end(Date date) {
-		_Per2.end = date;
-	}
 
-	stPeriod GetPer1() {
-		return _Per1;
-	}
-	stPeriod GetPer2() {
-		return _Per2;
-	}
-
-	Date GetPer1_start() {
-		return _Per1.start;
-	}
-	Date GetPer1_end() {
-		return _Per1.end;
-	}
-	Date GetPer2_start() {
-		return _Per2.start;
-	}
-	Date GetPer2_end() {
-		return _Per2.end;
+	Period(Date startDate, Date endDate) {
+		this->startDate = startDate;
+		this->endDate = endDate;
 	}
 
 
-
-	static bool IsPeriodsOverlapped(stPeriod per1, stPeriod per2) {
-		return !(IsDate1AfterDate2(per2.start, per1.end) || IsDate1BeforeDate2(per2.end, per1.start));
+	void PrintPeriod() {
+		cout << "Period start : "; Date::PrintDate(startDate);
+		cout << "Period end : "; Date::PrintDate(endDate);
 	}
 
-	bool IsPeriodsOverlapped() {
-		return IsPeriodsOverlapped(this->_Per1, this->_Per2);
+	static bool IsOverlapped(Period per1, Period per2) {
+		return !(Date::IsDate1AfterDate2(per2.startDate, per1.endDate) || Date::IsDate1BeforeDate2(per2.endDate, per1.startDate));
 	}
 
-	static int PeriodLengthInDays(stPeriod per, bool IncludeEndDay = false) {
-		return DateDifference(per.start, per.end, IncludeEndDay);
+	bool IsOverlapped(Period per) {
+		return IsOverlapped(*this, per);
 	}
 
-	static bool IsDateWithinPeriod(Date date, stPeriod per) {
-		return !(IsDate1BeforeDate2(date, per.start) || IsDate1AfterDate2(date, per.end));
+	static int LengthInDays(Period per, bool IncludeEndDay = false) {
+		return Date::DateDifference(per.startDate, per.endDate, IncludeEndDay);
 	}
 
-	static int CountOverlap(stPeriod per1, stPeriod per2) {
+	int LengthInDays(bool IncludeEndDay = false) {
+		return LengthInDays(*this, IncludeEndDay);
+	}
+
+	static bool IsDateWithinPeriod(Date date, Period per) {
+		return !(Date::IsDate1BeforeDate2(date, per.startDate) || Date::IsDate1AfterDate2(date, per.endDate));
+	}
+
+	bool IsDateWithinPeriod(Date date) {
+		return IsDateWithinPeriod(date, *this);
+	}
+
+	static int CountOverlap(Period per1, Period per2) {
 		int OverlappedDays = 0;
-		int per1Length = PeriodLengthInDays(per1);
-		int per2Length = PeriodLengthInDays(per2);
+		int per1Length = LengthInDays(per1);
+		int per2Length = LengthInDays(per2);
 
-		if (!IsPeriodsOverlapped(per1, per2)) return 0; // Catch The 0 Case.
+		if (!IsOverlapped(per1, per2)) return 0; // Catch The 0 Case.
 
 		if (per1Length < per2Length)
 		{
-			while (!IsDatesEquals(per1.start, per1.end))
+			while (!Date::IsDatesEquals(per1.startDate, per1.endDate))
 			{
-				if (IsDateWithinPeriod(per1.start, per2)) {
+				if (IsDateWithinPeriod(per1.startDate, per2)) {
 					OverlappedDays += 1;
 				}
-				per1.start = IncreaseDateByOneDay(per1.start);
+				per1.startDate = Date::IncreaseDateByOneDay(per1.startDate);
 			}
 		}
 		else
 		{
-			while (!IsDatesEquals(per2.start, per2.end))
+			while (!Date::IsDatesEquals(per2.startDate, per2.endDate))
 			{
-				if (IsDateWithinPeriod(per2.start, per1)) {
+				if (IsDateWithinPeriod(per2.startDate, per1)) {
 					OverlappedDays += 1;
 				}
-				per2.start = IncreaseDateByOneDay(per2.start);
+				per2.startDate = Date::IncreaseDateByOneDay(per2.startDate);
 			}
 		}
 		return OverlappedDays;
 	}
 
-	int CountOverlap() {
-		return CountOverlap(this->_Per1, this->_Per2);
+	int CountOverlap(Period per) {
+		return CountOverlap(*this, per);
 	}
 };
-

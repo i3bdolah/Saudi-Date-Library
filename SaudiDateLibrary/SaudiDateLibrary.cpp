@@ -125,20 +125,21 @@ int main()
 
 	cout << "\n\nPeriods : \n\n";
 
-	Period MeAndFather(date, date.IncreaseDateByXYears(50), Date(1, 2, 1970), Date::GetSystemDate());
+	Period per1(Date(1, 1, 2000), Date(1, 2, 2000));
+	Period per2(Date(15, 1, 2000), Date(1, 3, 2000));
 
-	cout << "Period 1 start : "; Date::PrintDate(MeAndFather.GetPer1_start());
-	cout << "Period 1 end : "; Date::PrintDate(MeAndFather.GetPer1_end());
-	cout << "Period 2 start : "; Date::PrintDate(MeAndFather.GetPer2_start());
-	cout << "Period 2 end : "; Date::PrintDate(MeAndFather.GetPer2_end());
+	cout << "Period 1" << endl;
+	per1.PrintPeriod();
+	cout << "Period 2" << endl;
+	per2.PrintPeriod();
 
 	cout << '\n';
 
-	cout << "PeriodLengthInDays (Period 1) : " << MeAndFather.PeriodLengthInDays(MeAndFather.GetPer1()) << endl;
-	cout << "PeriodLengthInDays (Period 2) : " << MeAndFather.PeriodLengthInDays(MeAndFather.GetPer2()) << endl;
-	cout << "IsPeriodsOverlapped : " << MeAndFather.IsPeriodsOverlapped() << endl;
-	cout << "CountOverlap : " << MeAndFather.CountOverlap() << endl;
-	cout << "IsDateWithinPeriod(MyBirthdate, MyFatherPeriod) : " << MeAndFather.IsDateWithinPeriod(date, MeAndFather.GetPer2()) << endl;
+	cout << "IsPeriodsOverlapped : " << per1.IsOverlapped(per2) << endl;
+	cout << "PeriodLengthInDays (Period 1) : " << per1.LengthInDays() << endl;
+	cout << "PeriodLengthInDays (Period 2) : " << per2.LengthInDays() << endl;
+	cout << "CountOverlap : " << per1.CountOverlap(per2) << endl;
+	cout << "IsDateWithinPeriod(31/7/2001, Period 1) : " << per1.IsDateWithinPeriod(date) << endl;
 
 	cout << '\n';
 
