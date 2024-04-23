@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-	Date date(212, 2001);
+	Date date;
 	cout << "IsLeapYear : " << date.IsLeapYear() << endl;
 	cout << "DaysInYear : " << date.DaysInYear() << endl;
 	cout << "HoursInYear : " << date.HoursInYear() << endl;
